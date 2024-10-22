@@ -11,7 +11,7 @@ async function allowUserToLikeABook(req, res) {
   }
 
   try {
-    let likeMovie = await likeModel.create({
+    let likeBook = await likeModel.create({
       userId,
       bookId,
     });
