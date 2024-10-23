@@ -19,4 +19,7 @@ let favoriteModel = sequelize.define("favorites", {
   },
 });
 
+userModel.belongsToMany(recipeModel, { through: favoriteModel });
+recipeModel.belongsToMany(userModel, { through: favoriteModel });
+
 module.exports = { favoriteModel };
