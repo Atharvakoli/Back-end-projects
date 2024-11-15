@@ -1,6 +1,6 @@
-let { dataTypes, sequelize } = require("../lib/index/js");
-let { bookModel } = require("../models/book.model.js");
-const { authorModel } = require("./author.model");
+let { dataTypes, sequelize } = require("../lib/index/js.js");
+let { bookModel } = require("./book.model.js");
+const { authorModel } = require("./author.model.js");
 
 let bookAuthorModel = sequelize.define("bookAuthor", {
   bookId: {

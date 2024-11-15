@@ -1,4 +1,4 @@
-const { movies } = require("../BD_6.1_hw_1/movieData");
+const { movies } = require("./movieData");
 
 function getMovies() {
   return movies;
