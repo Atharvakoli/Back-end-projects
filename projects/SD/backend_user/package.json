@@ -1,12 +1,12 @@
 {
   "name": "nodejs",
   "version": "1.0.0",
-  "description": "// tiger atharva koli => superbase",
+  "description": "superbase => tiger atharva koli => superbase | migration => npx sequelize-cli migration:generate --name name_of_models_you_are creating for | Create-table => npx sequelize-cli db:migrate | seeders => npx sequelize-cli seed:generate --name demo-users | running => npx sequelize-cli db:seed:all",
   "module": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon backend_user/index.js",
-    "start": "node backend_user/index.js "
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,26 @@
+{
+  "name": "trip_planner_1.1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "superbase password => tiger atharva koli => superbase | initializing app => npx sequelize-cli init | migration => npx sequelize-cli migration:generate --name name_of_models_you_are creating for | Create-table => npx sequelize-cli db:migrate | seeders => npx sequelize-cli seed:generate --name demo-users | running => npx sequelize-cli db:seed:all ||==|| For job interview prompt of chatgpt => Please create a more refined, accurate & pinpointed list than the previous one considering that the company I am being interviwed for is Amazon and the job role is software development engineer",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "sequelize": "^6.37.5",
+    "sequelize-cli": "^6.6.2"
+  }
+}

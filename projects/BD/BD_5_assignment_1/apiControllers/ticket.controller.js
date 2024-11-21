@@ -76,7 +76,7 @@ async function getTicketByStatus(req, res) {
     }
 
     let getTicketsByStatus = tickets.filter(
-      (ticket) => ticket.status.toLowerCase() === status.toLowerCase(),
+      (ticket) => ticket.status.toLowerCase() === status.toLowerCase()
     );
 
     res.status(200).json({ tickets: getTicketsByStatus });
@@ -94,7 +94,7 @@ async function getTicketOrderedByPriority(req, res) {
     }
 
     let orderTheTicketsByPriority = tickets.sort(
-      (a, b) => a.priority - b.priority,
+      (a, b) => a.priority - b.priority
     );
 
     res.status(200).json({ tickets: orderTheTicketsByPriority });
@@ -173,9 +173,11 @@ async function updateTicketDetails(req, res) {
 
     if (newTicketDetails.title) findTicketById.title = newTicketDetails.title;
     if (newTicketDetails.description)
-        findTicketById.description = newTicketDetails.description;
-    if (newTicketDetails.status) findTicketById.status = newTicketDetails.status;
-    if (newTicketDetails.priority) findTicketById.priority = newTicketDetails.priority;
+      findTicketById.description = newTicketDetails.description;
+    if (newTicketDetails.status)
+      findTicketById.status = newTicketDetails.status;
+    if (newTicketDetails.priority)
+      findTicketById.priority = newTicketDetails.priority;
 
     if (newTicketDetails.customerId) {
       await ticketCustomerModel.destroy({ where: { tickedId: id } });
@@ -196,13 +198,11 @@ async function updateTicketDetails(req, res) {
     await findTicketById.save();
 
     let ticketDetails = await getTicketDetails(findTicketById);
-    
-    res
-      .status(200)
-      .json({
-        message: "Ticket has been Updated",
-        updatedTicket: ticketDetails,
-      });
+
+    res.status(200).json({
+      message: "Ticket has been Updated",
+      updatedTicket: ticketDetails,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
