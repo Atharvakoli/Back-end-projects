@@ -1,13 +1,69 @@
-const axios = require("axios");
+const axiosInstance = require("../lib/axios.lib");
+const {
+  validateFlightQueryParams,
+  validateHotelsQueryParams,
+  validateSitesQueryParams,
+} = require("../validations/index.inputValidate");
 
-const axiosInstance = axios.create({
-  baseURL: process.env.MICROSERVICE_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    CLIENT_KEY: process.env.CLIENT_KEY,
-    CLIENT_SECRET: process.env.CLIENT_SECRET,
-  },
-});
+const getFlightsByOriginAndDestination = async (req, res) => {
+  const errors = validateFlightQueryParams(req.query);
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+  try {
+    const { origin, destination } = req.query;
+    const response = await axiosInstance.get(
+      `/flights/search?origin=${origin}&destination=${destination}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to GET flights by origin and destination, since ${error.message}`,
+    });
+  }
+};
+
+const getHotelsByLocation = async (req, res) => {
+  let errors = validateHotelsQueryParams(req.query);
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+  try {
+    let { location } = req.query;
+    let response = await axiosInstance.get(
+      `/hotels/search?location=${location}`
+    );
+
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to GET hotels by location, since ${error.message}`,
+    });
+  }
+};
+
+const getSitesByLocation = async (req, res) => {
+  let errors = validateSitesQueryParams(req.query);
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+  try {
+    let { location } = req.query;
+    let response = await axiosInstance.get(
+      `/sites/search?location=${location}`
+    );
+
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to GET sites by location, since ${error.message}`,
+    });
+  }
+};
+
 // 3rd party API Error handling Error Handling
 // -- Rate limiting :- usually applied, when you want to protect your servers from an overwhelming API request, suppose their are lot of requests coming in from the server, so applying rate limiting ensures that the requests are handled evenly, and the server does not crash
 
@@ -100,4 +156,11 @@ const getSites = async (req, res) => {
   }
 };
 
-module.exports = { getFlights, getHotels, getSites };
+module.exports = {
+  getFlights,
+  getHotels,
+  getSites,
+  getFlightsByOriginAndDestination,
+  getHotelsByLocation,
+  getSitesByLocation,
+};

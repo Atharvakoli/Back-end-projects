@@ -1,13 +1,66 @@
-const axios = require("axios");
+const axiosInstance = require("../lib/axios.lib");
+const {
+  validateConcertsQueryParams,
+  validateMerchandiseStallsQueryParams,
+  validateAfterPartiesQueryParams,
+} = require("../validation/index.inputValidation");
 
-const axiosInstance = axios.create({
-  baseURL: process.env.MICROSERVICE_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    CLIENT_KEY: process.env.CLIENT_KEY,
-    CLIENT_SECRET: process.env.CLIENT_SECRET,
-  },
-});
+const getConcertsByArtistAndCity = async (req, res) => {
+  let errors = validateConcertsQueryParams(req.query);
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+
+  try {
+    let { artist, city } = req.query;
+    let response = await axiosInstance.get(
+      `/concerts/search?artist=${artist}&city=${city}`
+    );
+
+    res.json(response.data);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: `Failed to retrieve Concert since, ${error.message}` });
+  }
+};
+const getMerchandiseStallsByStallName = async (req, res) => {
+  let errors = validateMerchandiseStallsQueryParams(req.query);
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+
+  try {
+    let { stallName } = req.query;
+    let response = await axiosInstance.get(
+      `/merchandiseStalls/search?stallName=${stallName}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to retrieve MerchandiseStalls since, ${error.message}`,
+    });
+  }
+};
+const getAfterPartiesByCity = async (req, res) => {
+  let errors = validateAfterPartiesQueryParams(req.query);
+
+  if (errors.length > 0) {
+    return res.status(400).json({ errors });
+  }
+
+  try {
+    let { city } = req.query;
+    let response = await axiosInstance.get(`/afterParties/search?city=${city}`);
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({
+      error: `Failed to retrieve After Parties since, ${error.message}`,
+    });
+  }
+};
 
 const getConcerts = async (req, res) => {
   try {
@@ -98,4 +151,11 @@ const getAfterParties = async (req, res) => {
   }
 };
 
-module.exports = { getConcerts, getMerchandiseStalls, getAfterParties };
+module.exports = {
+  getConcerts,
+  getMerchandiseStalls,
+  getAfterParties,
+  getAfterPartiesByCity,
+  getConcertsByArtistAndCity,
+  getMerchandiseStallsByStallName,
+};
